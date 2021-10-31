@@ -9,14 +9,63 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionPersonas.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20211011195221_Inicial")]
-    partial class Inicial
+    [Migration("20211031200410_Migracion Inicial")]
+    partial class MigracionInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.10");
+
+            modelBuilder.Entity("GestionPersonas.Entidades.Aportes", b =>
+                {
+                    b.Property<int>("AporteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Concepto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PersonaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("totalAportes")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("AporteId");
+
+                    b.HasIndex("PersonaId");
+
+                    b.ToTable("Aportes");
+                });
+
+            modelBuilder.Entity("GestionPersonas.Entidades.AportesDetalle", b =>
+                {
+                    b.Property<int>("AporteDetalleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("Aporte")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("AporteId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TipoDeAporteId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AporteDetalleId");
+
+                    b.HasIndex("AporteId");
+
+                    b.HasIndex("TipoDeAporteId");
+
+                    b.ToTable("AportesDetalle");
+                });
 
             modelBuilder.Entity("GestionPersonas.Entidades.Grupos", b =>
                 {
@@ -99,6 +148,54 @@ namespace GestionPersonas.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("GestionPersonas.Entidades.TiposDeAportes", b =>
+                {
+                    b.Property<int>("TipoDeAporteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Logrado")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("Meta")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("TipoDeAporteId");
+
+                    b.ToTable("TiposDeAportes");
+                });
+
+            modelBuilder.Entity("GestionPersonas.Entidades.Aportes", b =>
+                {
+                    b.HasOne("GestionPersonas.Entidades.Personas", "Persona")
+                        .WithMany()
+                        .HasForeignKey("PersonaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("GestionPersonas.Entidades.AportesDetalle", b =>
+                {
+                    b.HasOne("GestionPersonas.Entidades.Aportes", null)
+                        .WithMany("AportesDetalle")
+                        .HasForeignKey("AporteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GestionPersonas.Entidades.TiposDeAportes", "TipoDeAporte")
+                        .WithMany()
+                        .HasForeignKey("TipoDeAporteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TipoDeAporte");
+                });
+
             modelBuilder.Entity("GestionPersonas.Entidades.GruposDetalle", b =>
                 {
                     b.HasOne("GestionPersonas.Entidades.Grupos", null)
@@ -115,6 +212,11 @@ namespace GestionPersonas.Migrations
                         .HasForeignKey("RolId");
 
                     b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("GestionPersonas.Entidades.Aportes", b =>
+                {
+                    b.Navigation("AportesDetalle");
                 });
 
             modelBuilder.Entity("GestionPersonas.Entidades.Grupos", b =>

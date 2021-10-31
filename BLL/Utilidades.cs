@@ -16,5 +16,14 @@ namespace GestionPersonas.BLL
 
             return retorno;
         }
+
+        public static float ToFloat(string valor)
+        {
+            float retorno = 0;
+
+            float.TryParse(valor, out retorno);
+
+            return retorno;
+        }
     }
 }

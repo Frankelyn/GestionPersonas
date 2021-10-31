@@ -1,0 +1,95 @@
+﻿<Window x:Class="GestionPersonas.UI.Registros.rAportes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionPersonas.UI.Registros"
+        mc:Ignorable="d"
+        Title="Aportes" Height="550" Width="600">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+
+            <StackPanel Orientation="Vertical">
+                <Label Content="AporteId:"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="AporteIdTextBox" Text="{Binding AporteId}" Width="100" Height="18"/>
+                    <Button x:Name="BuscarAporteButton" Margin="5,0" Click="BuscarAporteButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Resources/icons8-google-web-search-24.png" />
+                            <Label Content="Buscar"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <Label Content="Fecha"/>
+                <DatePicker x:Name="FechaDatePicker" SelectedDate="{Binding Fecha}" />
+
+                <Label Content="Persona"/>
+                <ComboBox x:Name="PersonaComboBox" SelectedValue="{Binding PersonaId}" />
+
+                <StackPanel Orientation="Vertical" Margin="0,10,0,0">
+                    <GroupBox Header="Detalles de Aporte">
+                        <StackPanel Margin="10">
+                            <Label Content="Tipo de Aporte"/>
+                            <ComboBox x:Name="TipoDeAporteComboBox" SelectedValue="{Binding TipoDeAporteId}" />
+                            <Label Content="Monto de Aporte"/>
+                            <TextBox x:Name="AporteTextBox" Text="{Binding Aporte, StringFormat=N2}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="AgregarFilaButton" Margin="10" Click="AgregarFilaButton_Click"  Width="123">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Agregar fila"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="RemoverFilaButton" Margin="10" Click="RemoverFilaButton_Click"  Width="115">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Eliminar fila"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <DataGrid x:Name="AportesDetalleDataGrid" ItemsSource="{Binding AportesDetalle}" Height="80" AutoGenerateColumns="False" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="TipoDeAporte" Binding="{Binding TipoDeAporte.TipoDeAporteId}"/>
+                                    <DataGridTextColumn Header="Descripcion" Binding="{Binding TipoDeAporte.Descripcion}"/>
+                                    <DataGridTextColumn Header="Persona" Binding="{Binding Persona.Nombres}"/>
+                                    <DataGridTextColumn Header="Aporte" Binding="{Binding Aporte, StringFormat=N2}"/>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <StackPanel Orientation="Horizontal" >
+                        <Label Content="Total"/>
+                        <TextBox x:Name="TotalAportesTextbox" Height="22" Width="70" Text="{Binding totalAportes, StringFormat=N2}"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+            <!--BARRA DE BOTONES-->
+            <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Center" >
+                <Button x:Name="NuevoAporteButton"  Margin="5,0" Click="NuevoAporteButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/icons8-nuevo-48.png" Width="30" />
+                        <Label Content="Nuevo" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="GuardarAporteButton"   Margin="5,0" Click="GuardarAporteButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/icons8-guardar-48.png" Width="30"/>
+                        <Label Content="Guardar" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="EliminarAporteButton"  Margin="5,0" Click="EliminarAporteButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/icons8-eliminar-16.png" Width="30"/>
+                        <Label Content="Eliminar" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
